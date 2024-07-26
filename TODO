@@ -1,0 +1,10 @@
+write unitTests for Filters and Adapters
+load redis options from .env 
+set loggerFilter
+set UpstreamProxyConnector
+set authFilter
+set metricesFilter
+set config_mgr
+
+
+
