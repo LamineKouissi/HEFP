@@ -11,8 +11,6 @@ type TLSListener struct {
 	address     string
 	cnx         context.Context
 	server      *http.Server
-	tlsCertFile string
-	tlsKeyFile  string
 }
 
 func (srv *TLSListener) Listen() error {
