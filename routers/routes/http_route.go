@@ -37,13 +37,6 @@ func (h *HttpRoute) HandleF(ctx context.Context, w http.ResponseWriter, req *htt
 		log.Println(err)
 	}
 
-	// resBytes, err := httputil.DumpResponse(resp, false)
-	// if err != nil {
-	// 	log.Fatal("DumpResponse")
-	// }
-	// log.Println("handleHTTP() Res: -------------")
-	// fmt.Println(string(resBytes))
-
 	defer resp.Body.Close()
 	h.copyHeader(w.Header(), resp.Header)
 	w.WriteHeader(resp.StatusCode)

@@ -26,7 +26,7 @@ func (srv *TLSListener) Listen() error {
 }
 
 func NewTLSListener(cntx context.Context, adrs string, router http.Handler, crtFilePath string, keyFilePath string) (*TLSListener, error) {
-	cert, err := tls.LoadX509KeyPair(crtFilePath, keyFilePath) // todo : change this to load .crt & .key files location from envs
+	cert, err := tls.LoadX509KeyPair(crtFilePath, keyFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load X509 key pair: %v", err)
 		return nil, err

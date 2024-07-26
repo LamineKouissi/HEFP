@@ -5,10 +5,8 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
-	"net/http/httputil"
 )
 
 type HttpsConnector struct {
@@ -16,13 +14,6 @@ type HttpsConnector struct {
 }
 
 func (usc *HttpsConnector) Process(ctx context.Context, req *http.Request, res *http.Response) error {
-	fmt.Println("HttpsConnector.Process() target Request: ----------------")
-	rowReq, err := httputil.DumpRequest(req, false)
-	if err != nil {
-		log.Fatal("HttpsConnector.Process() DumpRequest(): ", err)
-	}
-	fmt.Println(string(rowReq))
-
 	trgtRes, err := usc.client.Do(req)
 	if err != nil {
 		log.Fatal("Err: Faild to Fire Req to Target through: HttpsConnector.Process() : ", err)
@@ -30,13 +21,6 @@ func (usc *HttpsConnector) Process(ctx context.Context, req *http.Request, res *
 	}
 
 	*res = *trgtRes
-
-	log.Println("HttpsConnector.Process() target Response: -----------------")
-	resBytes, err := httputil.DumpResponse(res, false)
-	if err != nil {
-		log.Fatal("HttpsConnector.Process() DumpResponse() : ", err)
-	}
-	fmt.Println(string(resBytes))
 	return nil
 }
 

@@ -23,9 +23,6 @@ func TestNewRedisCacheAdapter(t *testing.T) {
 	rdc, err := rd.GetClient()
 	assert.NoError(t, err, "RedisCacheAdapter.GetClient() : ")
 
-	// Perform basic diagnostic to check if the connection is working
-	// Expected result > ping: PONG
-	// If Redis is not running, error case is taken instead
 	ctx := context.Background()
 	status, err := rdc.Ping(ctx).Result()
 	assert.NoError(t, err, "Redis connection was refused")
@@ -131,9 +128,6 @@ func TestRedisCacheAdapterGet(t *testing.T) {
 }
 
 func TestRedisCacheAdapterSet(t *testing.T) {
-	// Create a mock redisCacheAdapter
-	//db, mock := redismock.NewClientMock()
-
 	adapter, err := NewRedisCacheAdapter("localhost:6379", "", "", "0")
 	assert.NoError(t, err)
 	ctx := context.Background()
@@ -211,13 +205,10 @@ func TestRedisCacheAdapterSet(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// key, err := adapter.getKey(tt.inputRequest)
-			// assert.NoError(t, err)
-			// mock.ExpectHSet(key, tt.inputRequest).SetVal()
+
 			err := adapter.Set(ctx, tt.inputRequest, tt.inputResponse, 0)
 			if tt.expectError {
 				assert.Error(t, err)
-				//assert.EqualError(t,err,)
 			} else {
 				assert.NoError(t, err)
 			}

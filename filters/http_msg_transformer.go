@@ -2,11 +2,9 @@ package filters
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"net/http"
-	"net/http/httputil"
 	"strings"
 )
 
@@ -36,25 +34,12 @@ var hopHeaders = []string{
 }
 
 func (hmt *HttpMsgTransformerFilter) Process(ctx context.Context, req *http.Request, res *http.Response) error {
-	fmt.Println("HttpMsgTransformerFilter.Process() source Request: ----------------")
-	rowSourceReq, err := httputil.DumpRequest(req, false)
-	if err != nil {
-		log.Fatal("HttpMsgTransformerFilter.Process() DumpRequest(): ", err)
-	}
-	fmt.Println(string(rowSourceReq))
 
-	req, err = hmt.transformReqFromSourceToTarget(req)
+	req, err := hmt.transformReqFromSourceToTarget(req)
 	if err != nil {
 		log.Fatal("Err: Faild to Transform Req From Source To Target: ", err)
 		return err
 	}
-
-	fmt.Println("HttpMsgTransformerFilter.Process() target Request:")
-	rowTrgReq, err := httputil.DumpRequest(req, false)
-	if err != nil {
-		log.Fatal("HttpMsgTransformerFilter.Process() DumpRequest(): ", err)
-	}
-	fmt.Println(string(rowTrgReq))
 
 	hmt.nextFilter.Process(ctx, req, res)
 	if err != nil {
@@ -62,25 +47,11 @@ func (hmt *HttpMsgTransformerFilter) Process(ctx context.Context, req *http.Requ
 		return err
 	}
 
-	fmt.Println("HttpMsgTransformerFilter.Process() target Response:----------------------------")
-	rowTrgRes, err := httputil.DumpResponse(res, false)
-	if err != nil {
-		log.Fatal("HttpMsgTransformerFilter.Process() DumpResponse(): ", err)
-	}
-	fmt.Println(string(rowTrgRes))
-
 	res, err = hmt.transformResFromTargetToSource(res)
 	if err != nil {
 		log.Fatal("Err: Faild to Transform Res From Target To Source: ", err)
 		return err
 	}
-
-	fmt.Println("HttpMsgTransformerFilter.Process() source Response: ")
-	rowSourceRes, err := httputil.DumpResponse(res, false)
-	if err != nil {
-		log.Fatal("HttpMsgTransformerFilter.Process() DumpResponse(): ", err)
-	}
-	fmt.Println(string(rowSourceRes))
 
 	return nil
 }

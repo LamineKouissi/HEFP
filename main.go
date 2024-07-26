@@ -89,26 +89,3 @@ func main() {
 	}
 
 }
-
-// func StartTLSServer(handler http.Handler) {
-// 	cnx := context.Background()
-// 	tlsServer, err := hsserver.NewTLSServer(cnx, ":8888", handler)
-// 	if err != nil {
-// 		//log.Fatal(err)
-// 		panic(err)
-// 	}
-// 	err = tlsServer.Listen()
-// 	if err != nil {
-// 		//log.Fatal(err)
-// 		panic(err)
-// 	}
-// }
-
-// func StartHttpServer(handler http.Handler) {
-// 	server := &http.Server{
-// 		Addr:    ":8080",
-// 		Handler: ProxyHandler{},
-// 	}
-// 	log.Println("Listening on 8080...")
-// 	log.Fatal(server.ListenAndServe())
-// }

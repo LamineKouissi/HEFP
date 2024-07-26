@@ -21,8 +21,6 @@ type redisCacheAdapter struct {
 	client *redis.Client
 }
 
-// add options struct for addrss usr ..
-
 func NewRedisCacheAdapter(addr, usr, pass, DBnum string) (*redisCacheAdapter, error) {
 	redisUrl := fmt.Sprintf("redis://%s:%s@%s/%s", usr, pass, addr, DBnum)
 	opt, err := redis.ParseURL(redisUrl)

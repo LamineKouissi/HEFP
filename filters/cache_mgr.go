@@ -3,10 +3,8 @@ package filters
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
-	"net/http/httputil"
 	"time"
 )
 
@@ -54,19 +52,11 @@ func (cm *cacheMgrFilter) SetCacheService(cacheSrvs CacheService) error {
 
 // See HTTP Caching - RFC 9111
 func (cm *cacheMgrFilter) Process(ctx context.Context, req *http.Request, res *http.Response) error {
-	fmt.Println("cacheMgrFilter.Process() sourse Request:------------------")
-	rowSourceReq, err := httputil.DumpRequest(req, false)
-	if err != nil {
-		log.Fatal("cacheMgrFilter.Process() DumpRequest(): ", err)
-	}
-	fmt.Println(string(rowSourceReq))
 
 	cachedRes, err := cm.cs.Get(ctx, req)
 	if err != nil {
-		log.Println("cacheMgrFilter.Process(){cm.cs.Get(...)}: ", err)
 		err = cm.nextFilter.Process(ctx, req, res)
 		if err != nil {
-			log.Println("cacheMgrFilter.Process(){cm.nextFilter.Process()}: ", err)
 			*res = http.Response{StatusCode: http.StatusInternalServerError}
 			return err
 		} else {
@@ -78,13 +68,6 @@ func (cm *cacheMgrFilter) Process(ctx context.Context, req *http.Request, res *h
 	} else {
 		*res = *cachedRes
 	}
-
-	fmt.Println("cacheMgrFilter.Process() sourse Response:------------------")
-	rowSourceRes, err := httputil.DumpResponse(res, false)
-	if err != nil {
-		log.Fatal("cacheMgrFilter.Process() DumpResponse(): ", err)
-	}
-	fmt.Println(string(rowSourceRes))
 
 	return nil
 }
