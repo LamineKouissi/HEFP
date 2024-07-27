@@ -37,7 +37,7 @@ func init() {
 		panic(err)
 	}
 
-	transformerFilter, err := filters.NewHttpMsgTransformerFilter()
+	transformerFilter, err := filters.NewHttpMsgTransformerFilter(httpsCnxFilter)
 	if err != nil {
 		panic(err)
 	}

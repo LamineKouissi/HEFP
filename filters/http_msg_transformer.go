@@ -2,6 +2,7 @@ package filters
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net"
 	"net/http"
@@ -12,25 +13,19 @@ type HttpMsgTransformerFilter struct {
 	nextFilter Filter
 }
 
-func NewHttpMsgTransformerFilter() (*HttpMsgTransformerFilter, error) {
-	return &HttpMsgTransformerFilter{}, nil
+func NewHttpMsgTransformerFilter(nextF Filter) (*HttpMsgTransformerFilter, error) {
+	if nextF == nil {
+		return nil, errors.New("invalid input : nextFilter <nil>")
+	}
+	return &HttpMsgTransformerFilter{nextFilter: nextF}, nil
 }
 
-func (hmt *HttpMsgTransformerFilter) SetNextFilter(filter Filter) error {
-	hmt.nextFilter = filter
+func (hmt *HttpMsgTransformerFilter) SetNextFilter(nextF Filter) error {
+	if nextF == nil {
+		return errors.New("invalid input : nextFilter <nil>")
+	}
+	hmt.nextFilter = nextF
 	return nil
-}
-
-var hopHeaders = []string{
-	"Connection",
-	"Proxy-Connection",
-	"Keep-Alive",
-	"Proxy-Authenticate",
-	"Proxy-Authorization",
-	"Te",      // canonicalized version of "TE"
-	"Trailer", // spelling per https://www.rfc-editor.org/errata_search.php?eid=4522
-	"Transfer-Encoding",
-	"Upgrade",
 }
 
 func (hmt *HttpMsgTransformerFilter) Process(ctx context.Context, req *http.Request, res *http.Response) error {
@@ -76,6 +71,17 @@ func (hmt *HttpMsgTransformerFilter) transformResFromTargetToSource(targetRes *h
 }
 
 func (hmt *HttpMsgTransformerFilter) removeHopHeaders(header http.Header) {
+	var hopHeaders = []string{
+		"Connection",
+		"Proxy-Connection",
+		"Keep-Alive",
+		"Proxy-Authenticate",
+		"Proxy-Authorization",
+		"Te",      // canonicalized version of "TE"
+		"Trailer", // spelling per https://www.rfc-editor.org/errata_search.php?eid=4522
+		"Transfer-Encoding",
+		"Upgrade",
+	}
 	for _, h := range hopHeaders {
 		header.Del(h)
 	}
