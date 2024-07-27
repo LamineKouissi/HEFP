@@ -1,10 +1,21 @@
 write unitTests for the remaining Filters and Adapters, ...
 load redis options from .env 
-set loggerFilter
-set UpstreamProxyConnector
-set authFilter
-set metricesFilter
-set config_mgr
+build loggerFilter
+write docs
+build CI pipline
+build authFilter
+build metricesFilter
+build config_mgr
+
+
+done : load Tls server.cert & key.cert file paths from env [TLS_SERVER, TLS_KEY]
+done : write unitTests for the cacheFilter
+done : write unitTests for the redisCacheAdapter
+done : write unitTests for the cacheFilter filter
+done : write unitTests for the util.IsStructEmpty()
+done : write unitTests for the HttpMsgTransformerFilter
+
+
 
 
 
