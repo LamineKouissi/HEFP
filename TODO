@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+write unitTests for the remaining Filters and Adapters, ...
+load redis options from .env 
+>>>>>>> 6b8abbfaa7e1d9e97719b6470c5c8c460d1545eb
 set loggerFilter
 set UpstreamProxyConnector
 set authFilter
