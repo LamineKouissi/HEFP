@@ -1,5 +1,3 @@
-write unitTests for Filters and Adapters
-load redis options from .env 
 set loggerFilter
 set UpstreamProxyConnector
 set authFilter
