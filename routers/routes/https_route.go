@@ -16,7 +16,6 @@ func NewHttspRoute() (*HttpsRoute, error) {
 }
 
 func (hs *HttpsRoute) HandleF(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-	//log.Println("handleTunneling()")
 	destConn, err := net.DialTimeout("tcp", r.Host, 10*time.Second)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
