@@ -11,7 +11,6 @@ build config_mgr
 done : load Tls server.cert & key.cert file paths from env [TLS_SERVER, TLS_KEY]
 done : write unitTests for the cacheFilter
 done : write unitTests for the redisCacheAdapter
-done : write unitTests for the cacheFilter filter
 done : write unitTests for the util.IsStructEmpty()
 done : write unitTests for the HttpMsgTransformerFilter
 
