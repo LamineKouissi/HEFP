@@ -1,5 +1,6 @@
 write unitTests for the remaining Filters and Adapters, ...
-load redis options from .env 
+load redis options from .env file
+load Tls server.cert & key.cert file paths from .env file
 build loggerFilter
 write docs
 build CI pipline
